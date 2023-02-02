@@ -65,6 +65,19 @@ public class AutoReelFrame extends javax.swing.JFrame {
      */
     public void setAutoReel(AutoReel autoReel) {
         this.autoReel = autoReel;
+        
+        // set the comm ports
+        setCommPorts(autoReel.getPorts(false));
+        
+        // update the UI from the properties
+        
+    }
+    
+    /**
+     * Update the R2R/Tape Deck Panels with name and values
+     */
+    private void updateTapeDeckPanels() {
+        
     }
     
     /**
@@ -102,7 +115,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         clearConsoleButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        deck1Panel = new javax.swing.JPanel();
         connectButton1 = new javax.swing.JButton();
         commPortComboBox1 = new javax.swing.JComboBox<>();
         closePortButton1 = new javax.swing.JButton();
@@ -125,7 +138,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         reverseModeCheckBox1 = new javax.swing.JCheckBox();
         jLabel18 = new javax.swing.JLabel();
         recordToggleButton1 = new javax.swing.JToggleButton();
-        jPanel4 = new javax.swing.JPanel();
+        deck2Panel = new javax.swing.JPanel();
         connectButton2 = new javax.swing.JButton();
         commPortComboBox2 = new javax.swing.JComboBox<>();
         closePortButton2 = new javax.swing.JButton();
@@ -149,7 +162,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         recordToggleButton2 = new javax.swing.JToggleButton();
         jPanel7 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
+        deck3Panel = new javax.swing.JPanel();
         connectButton3 = new javax.swing.JButton();
         commPortComboBox3 = new javax.swing.JComboBox<>();
         closePortButton3 = new javax.swing.JButton();
@@ -172,7 +185,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         reverseModeCheckBox3 = new javax.swing.JCheckBox();
         jLabel20 = new javax.swing.JLabel();
         recordToggleButton3 = new javax.swing.JToggleButton();
-        jPanel12 = new javax.swing.JPanel();
+        deck4Panel = new javax.swing.JPanel();
         connectButton4 = new javax.swing.JButton();
         commPortComboBox4 = new javax.swing.JComboBox<>();
         closePortButton4 = new javax.swing.JButton();
@@ -205,9 +218,10 @@ public class AutoReelFrame extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         startDelayTextField = new javax.swing.JTextField();
         reel4CheckBox = new javax.swing.JCheckBox();
+        setupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AutoReel Controller v0.4.0B1 (01/30/2023)");
+        setTitle("AutoReel Controller v0.4.0 (01/31/2023)");
 
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -247,7 +261,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC 2300SD"));
+        deck1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC 2300SD"));
 
         connectButton1.setText("CONNECT TO COMM PORT");
         connectButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -363,11 +377,11 @@ public class AutoReelFrame extends javax.swing.JFrame {
         });
         jPanel3.add(recordToggleButton1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout deck1PanelLayout = new javax.swing.GroupLayout(deck1Panel);
+        deck1Panel.setLayout(deck1PanelLayout);
+        deck1PanelLayout.setHorizontalGroup(
+            deck1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck1PanelLayout.createSequentialGroup()
                 .addComponent(connectButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(commPortComboBox1, 0, 1, Short.MAX_VALUE)
@@ -375,10 +389,10 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addComponent(closePortButton1))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        deck1PanelLayout.setVerticalGroup(
+            deck1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck1PanelLayout.createSequentialGroup()
+                .addGroup(deck1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(connectButton1)
                     .addComponent(commPortComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(closePortButton1))
@@ -386,9 +400,9 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel6.add(jPanel2);
+        jPanel6.add(deck1Panel);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("AKAI GX77"));
+        deck2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("AKAI GX77"));
 
         connectButton2.setText("CONNECT TO COMM PORT");
         connectButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -502,11 +516,11 @@ public class AutoReelFrame extends javax.swing.JFrame {
         });
         jPanel5.add(recordToggleButton2);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout deck2PanelLayout = new javax.swing.GroupLayout(deck2Panel);
+        deck2Panel.setLayout(deck2PanelLayout);
+        deck2PanelLayout.setHorizontalGroup(
+            deck2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck2PanelLayout.createSequentialGroup()
                 .addComponent(connectButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(commPortComboBox2, 0, 1, Short.MAX_VALUE)
@@ -514,10 +528,10 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addComponent(closePortButton2))
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        deck2PanelLayout.setVerticalGroup(
+            deck2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck2PanelLayout.createSequentialGroup()
+                .addGroup(deck2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(connectButton2)
                     .addComponent(commPortComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(closePortButton2))
@@ -525,13 +539,13 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel6.add(jPanel4);
+        jPanel6.add(deck2Panel);
 
         jTabbedPane1.addTab("Reel To Reels", jPanel6);
 
         jPanel7.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC X10R"));
+        deck3Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC X10R"));
 
         connectButton3.setText("CONNECT TO COMM PORT");
         connectButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -649,13 +663,18 @@ public class AutoReelFrame extends javax.swing.JFrame {
         jPanel9.add(jLabel20);
 
         recordToggleButton3.setText("RECORD");
+        recordToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recordToggleButton3ActionPerformed(evt);
+            }
+        });
         jPanel9.add(recordToggleButton3);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        javax.swing.GroupLayout deck3PanelLayout = new javax.swing.GroupLayout(deck3Panel);
+        deck3Panel.setLayout(deck3PanelLayout);
+        deck3PanelLayout.setHorizontalGroup(
+            deck3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck3PanelLayout.createSequentialGroup()
                 .addComponent(connectButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(commPortComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -663,10 +682,10 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addComponent(closePortButton3))
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        deck3PanelLayout.setVerticalGroup(
+            deck3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck3PanelLayout.createSequentialGroup()
+                .addGroup(deck3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(connectButton3)
                     .addComponent(commPortComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(closePortButton3))
@@ -675,9 +694,9 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addGap(41, 41, 41))
         );
 
-        jPanel7.add(jPanel8);
+        jPanel7.add(deck3Panel);
 
-        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC X7R"));
+        deck4Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC X7R"));
 
         connectButton4.setText("CONNECT TO COMM PORT");
         connectButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -795,13 +814,18 @@ public class AutoReelFrame extends javax.swing.JFrame {
         jPanel13.add(jLabel21);
 
         recordToggleButton4.setText("RECORD");
+        recordToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recordToggleButton4ActionPerformed(evt);
+            }
+        });
         jPanel13.add(recordToggleButton4);
 
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+        javax.swing.GroupLayout deck4PanelLayout = new javax.swing.GroupLayout(deck4Panel);
+        deck4Panel.setLayout(deck4PanelLayout);
+        deck4PanelLayout.setHorizontalGroup(
+            deck4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck4PanelLayout.createSequentialGroup()
                 .addComponent(connectButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(commPortComboBox4, 0, 234, Short.MAX_VALUE)
@@ -809,10 +833,10 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addComponent(closePortButton4))
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        deck4PanelLayout.setVerticalGroup(
+            deck4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck4PanelLayout.createSequentialGroup()
+                .addGroup(deck4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(connectButton4)
                     .addComponent(commPortComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(closePortButton4))
@@ -820,7 +844,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel7.add(jPanel12);
+        jPanel7.add(deck4Panel);
 
         jTabbedPane1.addTab("Reel To Reels", jPanel7);
 
@@ -915,12 +939,21 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Synchro Play", jPanel11);
 
+        setupButton.setText("Setup");
+        setupButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setupButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(clearConsoleButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(setupButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(closeButton))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -935,7 +968,8 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(closeButton)
-                    .addComponent(clearConsoleButton)))
+                    .addComponent(clearConsoleButton)
+                    .addComponent(setupButton)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1289,7 +1323,6 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 int end = Integer.parseInt(endTimeTextField3.getText());
                 int rewindEnd = Integer.parseInt(rewindTimeTextField3.getText());
                 int rewindTime = 0;
-                String prefix = "+";
                 String timeString;
                 
                 @Override
@@ -1315,21 +1348,21 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             timer3.stop();
                         } else if(stopMode.equals("PLAY REVERSE")) {
                             start = 0; // reset start value
-                            prefix = "-";
+                            prefix3 = "-";
                             autoPlayEndComboBox3.setSelectedIndex(0); // set it stop so we stop at the beginning
                             reversePlayButton3.doClick();
                             consoleTextArea.append("AutoPlay 3 Reverse Play ...\n");
                         } else {// must be rewind so we need to 
                             // we now can start rewind
                             if (rewindTime == 0) {
-                                prefix = "-";
+                                prefix3 = "-";
                                 rewindButton3.doClick();
                             }
 
                             rewindTime++;
                             int diff = rewindEnd - rewindTime;
                             timeString = autoReel.getTimeString(diff) + " | (" + diff + ")";
-                            timerLabel3.setText(prefix + timeString);
+                            timerLabel3.setText(prefix3 + timeString);
                             
                             if (rewindTime > rewindEnd || stopAutoPlay3) {
                                 autoPlayEndComboBox3.setSelectedIndex(0);
@@ -1337,7 +1370,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         }
                     } else {
                         timeString = autoReel.getTimeString(start) + " | (" + start + ")";
-                        timerLabel3.setText(prefix + timeString);
+                        timerLabel3.setText(prefix3 + timeString);
                     }
                 }
             });
@@ -1345,8 +1378,14 @@ public class AutoReelFrame extends javax.swing.JFrame {
             
             // disable the button
             consoleTextArea.append("Starting AutoPlay 3 ...\n");
-            autoPlayButton3.setEnabled(false);
-            forwardPlayButton3.doClick();
+            
+            if(!reverseModeCheckBox3.isSelected()) {
+                prefix3 = "+";
+                forwardPlayButton3.doClick();
+            } else {
+                prefix3 = "-";
+                reversePlayButton3.doClick();
+            }
         } catch(NumberFormatException nfe) {
             nfe.printStackTrace();
         }
@@ -1484,7 +1523,6 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 int end = Integer.parseInt(endTimeTextField4.getText());
                 int rewindEnd = Integer.parseInt(rewindTimeTextField4.getText());
                 int rewindTime = 0;
-                String prefix = "+";
                 String timeString;
                 
                 @Override
@@ -1510,21 +1548,21 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             timer4.stop();
                         } else if(stopMode.equals("PLAY REVERSE")) {
                             start = 0; // reset start value
-                            prefix = "-";
+                            prefix4 = "-";
                             autoPlayEndComboBox4.setSelectedIndex(0); // set it stop so we stop at the beginning
                             reversePlayButton4.doClick();
                             consoleTextArea.append("AutoPlay 4 Reverse Play ...\n");
                         } else {// must be rewind so we need to 
                             // we now can start rewind
                             if (rewindTime == 0) {
-                                prefix = "-";
+                                prefix4 = "-";
                                 rewindButton4.doClick();
                             }
 
                             rewindTime++;
                             int diff = rewindEnd - rewindTime;
                             timeString = autoReel.getTimeString(diff) + " | (" + diff + ")";
-                            timerLabel4.setText(prefix + timeString);
+                            timerLabel4.setText(prefix4 + timeString);
                             
                             if (rewindTime > rewindEnd || stopAutoPlay4) {
                                 autoPlayEndComboBox4.setSelectedIndex(0);
@@ -1532,7 +1570,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         }
                     } else {
                         timeString = autoReel.getTimeString(start) + " | (" + start + ")";
-                        timerLabel4.setText(prefix + timeString);
+                        timerLabel4.setText(prefix4 + timeString);
                     }
                 }
             });
@@ -1540,8 +1578,14 @@ public class AutoReelFrame extends javax.swing.JFrame {
             
             // disable the button
             consoleTextArea.append("Starting AutoPlay 4 ...\n");
-            autoPlayButton4.setEnabled(false);
-            forwardPlayButton4.doClick();
+            
+            if(!reverseModeCheckBox4.isSelected()) {
+                prefix4 = "+";
+                forwardPlayButton4.doClick();
+            } else {
+                prefix4 = "-";
+                reversePlayButton4.doClick();
+            }
         } catch(NumberFormatException nfe) {
             nfe.printStackTrace();
         }
@@ -1565,7 +1609,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
     private void recordToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton1ActionPerformed
         if(recordToggleButton1.isSelected()) {
-            consoleTextArea.append("Send REC Command 1 ...\n");
+            consoleTextArea.append("Send REC Command (1) ...\n");
             autoReel.sendCommand(connectIndex1, "REC", false);
             consoleTextArea.append("Done ...\n");
         } else {
@@ -1575,13 +1619,40 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
     private void recordToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton2ActionPerformed
         if(recordToggleButton2.isSelected()) {
-            consoleTextArea.append("Send REC Command 2 ...\n");
+            consoleTextArea.append("Send REC Command (2) ...\n");
             autoReel.sendCommand(connectIndex2, "5", false);
             consoleTextArea.append("Done ...\n");
         } else {
             stopButton2.doClick();
         }
     }//GEN-LAST:event_recordToggleButton2ActionPerformed
+
+    private void recordToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton3ActionPerformed
+        if(recordToggleButton3.isSelected()) {
+            consoleTextArea.append("Send REC Command (3) ...\n");
+            autoReel.sendCommand(connectIndex3, "5", false);
+            consoleTextArea.append("Done ...\n");
+        } else {
+            stopButton3.doClick();
+        }
+    }//GEN-LAST:event_recordToggleButton3ActionPerformed
+
+    private void recordToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton4ActionPerformed
+        if(recordToggleButton4.isSelected()) {
+            consoleTextArea.append("Send REC Command (4) ...\n");
+            autoReel.sendCommand(connectIndex4, "5", false);
+            consoleTextArea.append("Done ...\n");
+        } else {
+            stopButton4.doClick();
+        }
+    }//GEN-LAST:event_recordToggleButton4ActionPerformed
+
+    private void setupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setupButtonActionPerformed
+        SetupDialog setupDialog = new SetupDialog(this, true);
+        setupDialog.setTitle("AutoReel Setup");
+        setupDialog.setAutoReel(autoReel);
+        setupDialog.setVisible(true);
+    }//GEN-LAST:event_setupButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton autoPlayAllButton;
@@ -1608,6 +1679,10 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private javax.swing.JButton connectButton3;
     private javax.swing.JButton connectButton4;
     private javax.swing.JTextArea consoleTextArea;
+    private javax.swing.JPanel deck1Panel;
+    private javax.swing.JPanel deck2Panel;
+    private javax.swing.JPanel deck3Panel;
+    private javax.swing.JPanel deck4Panel;
     private javax.swing.JTextField endTimeTextField1;
     private javax.swing.JTextField endTimeTextField2;
     private javax.swing.JTextField endTimeTextField3;
@@ -1644,15 +1719,11 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1680,6 +1751,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private javax.swing.JTextField rewindTimeTextField2;
     private javax.swing.JTextField rewindTimeTextField3;
     private javax.swing.JTextField rewindTimeTextField4;
+    private javax.swing.JButton setupButton;
     private javax.swing.JTextField startDelayTextField;
     private javax.swing.JTextField startTimeTextField1;
     private javax.swing.JTextField startTimeTextField2;

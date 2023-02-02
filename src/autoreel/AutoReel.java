@@ -3,9 +3,12 @@ package autoreel;
 import gnu.io.NRSerialPort;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,12 +22,55 @@ import java.util.TreeSet;
  * @version 0.1 09/27/2022
  */
 public class AutoReel {
+    // store program properties
+    private final String PROPERTIES_FILENAME = "autoreel.properties";
+    public Properties properties = new Properties();
+    
     private final boolean testMode = false;
     private final List<NRSerialPort> serialList = new ArrayList<>();
     private final List<DataInputStream> insList = new ArrayList<>();;
     private final List<DataOutputStream> outsList = new ArrayList<>();
     
-    public AutoReel() {}
+    public AutoReel() { }
+    
+    /**
+     * Load the default properties
+     */
+    public void loadProperties() {
+        // try loading the properties
+        try (FileReader fileReader = new FileReader(PROPERTIES_FILENAME)) {
+            properties.load(fileReader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Save the default properties file
+     */
+    public void saveProperties() {
+        try (FileWriter output = new FileWriter(PROPERTIES_FILENAME)) {
+            /*
+            properties.put("deck1.name", "TEAC 2300SD");
+            properties.put("deck1.play.for", "PLAY");
+            properties.put("deck1.stop", "STOP");
+            properties.put("deck1.rev", "REV");
+            properties.put("deck1.ff", "FF");
+            properties.put("deck1.play.rev", "PLAY_REV");
+            properties.put("deck1.rec", "REC");
+            properties.put("deck1.rec.mute", "REC_MUTE");
+            properties.put("deck1.time.start", "0");
+            properties.put("deck1.time.end", "3600");
+            properties.put("deck1.time.rewind", "126");
+            */
+            
+            properties.store(output, "AutoReel Defaults");
+            
+            System.out.println("\nSaved Properties ...");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     /**
      * Return the Serial ports on the system
@@ -223,9 +269,11 @@ public class AutoReel {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             AutoReel autoReel = new AutoReel();
+            autoReel.loadProperties();
+            
+            
             AutoReelFrame autoReelFrame = new AutoReelFrame();
             autoReelFrame.setAutoReel(autoReel);
-            autoReelFrame.setCommPorts(autoReel.getPorts(false));
             autoReelFrame.setVisible(true);
         });
     }

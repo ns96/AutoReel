@@ -6,9 +6,9 @@ A Simple Java Program for Controlling Vintage Reel to Reel (R2R) Tape Decks
 ## Description
 
 This program makes use of the excellent nrjavaserial.jar library for 
-accessing Bluetooth based remotes controls connected to the Reel to Reel Tape decks. 
-Its been tested on Windows 10/11, but should work on any computer with support 
-for Java * and above.
+accessing DIY Bluetooth remotes control modules connected to 4 Reel to 
+Reel Tape decks. Its been tested on Windows 10/11, but should work on any 
+computer with support for Java 8 and above, and supports Bluetooth classic (SPP).
 
 ## Getting Started
 
