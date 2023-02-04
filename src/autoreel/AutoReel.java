@@ -37,11 +37,12 @@ public class AutoReel {
      * Load the default properties
      */
     public void loadProperties() {
-        // try loading the properties
+        // try loading the properties if it 
         try (FileReader fileReader = new FileReader(PROPERTIES_FILENAME)) {
             properties.load(fileReader);
+            System.out.println("Properties File Loaded ...");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error Loading Properties File ...");
         }
     }
     
@@ -49,23 +50,8 @@ public class AutoReel {
      * Save the default properties file
      */
     public void saveProperties() {
-        try (FileWriter output = new FileWriter(PROPERTIES_FILENAME)) {
-            /*
-            properties.put("deck1.name", "TEAC 2300SD");
-            properties.put("deck1.play.for", "PLAY");
-            properties.put("deck1.stop", "STOP");
-            properties.put("deck1.rev", "REV");
-            properties.put("deck1.ff", "FF");
-            properties.put("deck1.play.rev", "PLAY_REV");
-            properties.put("deck1.rec", "REC");
-            properties.put("deck1.rec.mute", "REC_MUTE");
-            properties.put("deck1.time.start", "0");
-            properties.put("deck1.time.end", "3600");
-            properties.put("deck1.time.rewind", "126");
-            */
-            
+        try (FileWriter output = new FileWriter(PROPERTIES_FILENAME)) {            
             properties.store(output, "AutoReel Defaults");
-            
             System.out.println("\nSaved Properties ...");
         } catch (IOException e) {
             e.printStackTrace();
@@ -270,8 +256,6 @@ public class AutoReel {
         java.awt.EventQueue.invokeLater(() -> {
             AutoReel autoReel = new AutoReel();
             autoReel.loadProperties();
-            
-            
             AutoReelFrame autoReelFrame = new AutoReelFrame();
             autoReelFrame.setAutoReel(autoReel);
             autoReelFrame.setVisible(true);

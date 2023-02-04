@@ -34,7 +34,7 @@ public class SetupDialog extends javax.swing.JDialog {
         
         // update the table with the values
         for(int i = 1; i < 5; i++) {
-            int offset = (i-1)*12;
+            int offset = (i-1)*13;
             
             String key = "deck" + i + ".name";
             int row = 1 + offset;
@@ -43,6 +43,56 @@ public class SetupDialog extends javax.swing.JDialog {
             
             key = "deck" + i + ".play.for";
             row = 2 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".play.rev";
+            row = 3 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".stop";
+            row = 4 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".ff";
+            row = 5 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".rev";
+            row = 6 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".rec";
+            row = 7 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".rec.mute";
+            row = 8 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".time.start";
+            row = 9 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".time.end";
+            row = 10 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".time.rewind";
+            row = 11 + offset;
+            model.setValueAt(key, row, 0);
+            model.setValueAt(autoReel.properties.get(key), row, 1);
+            
+            key = "deck" + i + ".comm";
+            row = 12 + offset;
             model.setValueAt(key, row, 0);
             model.setValueAt(autoReel.properties.get(key), row, 1);
         }
@@ -124,10 +174,12 @@ public class SetupDialog extends javax.swing.JDialog {
                 {null, null},
                 {null, null},
                 {null, null},
+                {null, null},
+                {null, null},
                 {null, null}
             },
             new String [] {
-                "Properties", "Value"
+                "Property", "Value"
             }
         ) {
             Class[] types = new Class [] {

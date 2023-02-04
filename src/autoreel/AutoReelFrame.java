@@ -69,8 +69,26 @@ public class AutoReelFrame extends javax.swing.JFrame {
         // set the comm ports
         setCommPorts(autoReel.getPorts(false));
         
-        // update the UI from the properties
+        // update the comm port for the particular deck
+        String key = "deck1.comm";
+        Object commPort = autoReel.properties.get(key);
+        if(commPort != null)
+            commPortComboBox1.setSelectedItem(commPort);
         
+        key = "deck2.comm";
+        commPort = autoReel.properties.get(key);
+        if(commPort != null)
+            commPortComboBox2.setSelectedItem(commPort);
+        
+        key = "deck3.comm";
+        commPort = autoReel.properties.get(key);
+        if(commPort != null)
+            commPortComboBox3.setSelectedItem(commPort);
+        
+        key = "deck4.comm";
+        commPort = autoReel.properties.get(key);
+        if(commPort != null)
+            commPortComboBox4.setSelectedItem(commPort);
     }
     
     /**
@@ -221,7 +239,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         setupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AutoReel Controller v0.4.0 (01/31/2023)");
+        setTitle("AutoReel Controller v0.4.1 (02/04/2023)");
 
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1378,6 +1396,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
             
             // disable the button
             consoleTextArea.append("Starting AutoPlay 3 ...\n");
+            autoPlayButton3.setEnabled(false);
             
             if(!reverseModeCheckBox3.isSelected()) {
                 prefix3 = "+";
@@ -1578,6 +1597,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
             
             // disable the button
             consoleTextArea.append("Starting AutoPlay 4 ...\n");
+            autoPlayButton4.setEnabled(false);
             
             if(!reverseModeCheckBox4.isSelected()) {
                 prefix4 = "+";
