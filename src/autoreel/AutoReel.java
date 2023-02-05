@@ -59,6 +59,24 @@ public class AutoReel {
     }
     
     /**
+     * Return the list of properties for deck
+     * @param deck The deck to return the properties for
+     * @return 
+     */
+    public String[] getDeckProperties(String deck) {
+        TreeSet<String> deckProperties = new TreeSet<>();
+        
+        for(String key: properties.stringPropertyNames()) {
+            if(key.contains(deck)) {
+                deckProperties.add(key);
+            }
+        }
+        
+        String[] a = new String[deckProperties.size()];
+        return deckProperties.toArray(a);
+    }
+    
+    /**
      * Return the Serial ports on the system
      * @param skip Skip the loading of actual serial ports, since this take a long time
      * on windows
@@ -256,6 +274,7 @@ public class AutoReel {
         java.awt.EventQueue.invokeLater(() -> {
             AutoReel autoReel = new AutoReel();
             autoReel.loadProperties();
+            
             AutoReelFrame autoReelFrame = new AutoReelFrame();
             autoReelFrame.setAutoReel(autoReel);
             autoReelFrame.setVisible(true);

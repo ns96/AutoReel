@@ -239,7 +239,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         setupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AutoReel Controller v0.4.1 (02/04/2023)");
+        setTitle("AutoReel Controller v0.4.2 (02/05/2023)");
 
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
