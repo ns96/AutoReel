@@ -7,10 +7,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * A small program for the control of reel to reel tape decks over Bluetooth
@@ -24,15 +29,35 @@ import java.util.TreeSet;
 public class AutoReel {
     // store program properties
     private final String PROPERTIES_FILENAME = "autoreel.properties";
-    public Properties properties = new Properties();
+    public Properties properties;
     
     private final boolean testMode = false;
     private final List<NRSerialPort> serialList = new ArrayList<>();
     private final List<DataInputStream> insList = new ArrayList<>();;
     private final List<DataOutputStream> outsList = new ArrayList<>();
     
-    public AutoReel() { }
+    public AutoReel() {
+        properties = getOrderedProperties();   
+    }
     
+    /**
+     * Return a property that sorts the key values when saved
+     * https://stackoverflow.com/questions/17011108/how-can-i-write-java-properties-in-a-defined-order
+     * @return 
+     */
+    private Properties getOrderedProperties() {
+        return new Properties() {
+            @Override
+            public synchronized Set<Map.Entry<Object, Object>> entrySet() {
+                return Collections.synchronizedSet(
+                        super.entrySet()
+                                .stream()
+                                .sorted(Comparator.comparing(e -> e.getKey().toString()))
+                                .collect(Collectors.toCollection(LinkedHashSet::new)));
+            }
+        };
+    }
+                
     /**
      * Load the default properties
      */
