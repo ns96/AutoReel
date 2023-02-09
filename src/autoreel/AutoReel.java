@@ -43,7 +43,8 @@ public class AutoReel {
     /**
      * Return a property that sorts the key values when saved
      * https://stackoverflow.com/questions/17011108/how-can-i-write-java-properties-in-a-defined-order
-     * @return 
+     * 
+     * @return A properties object which sorts keys 
      */
     private Properties getOrderedProperties() {
         return new Properties() {
@@ -147,6 +148,76 @@ public class AutoReel {
         } else {
             return -1;
         }
+    }
+    
+    /**
+     * send the rewind command for a particular deck
+     * @param index The connected index
+     * @param deck The deck number
+     */
+    public void sendRewind(int index, int deck) {
+        String command = properties.getProperty("deck" + deck + ".rev");
+        sendCommand(index, command, false);
+    }
+    
+    /**
+     * send the stop command for a particular deck
+     * @param index The connected index
+     * @param deck The deck number
+     */
+    public void sendStop(int index, int deck) {
+        String command = properties.getProperty("deck" + deck + ".stop");
+        sendCommand(index, command, false);
+    }
+    
+    /**
+     * send the fast forward command for a particular deck
+     * @param index The connected index
+     * @param deck The deck number
+     */
+    public void sendFastForward(int index, int deck) {
+        String command = properties.getProperty("deck" + deck + ".ff");
+        sendCommand(index, command, false);
+    }
+    
+    /**
+     * send the reverse play command for a particular deck
+     * @param index The connected index
+     * @param deck The deck number
+     */
+    public void sendReversePlay(int index, int deck) {
+        String command = properties.getProperty("deck" + deck + ".play.rev");
+        sendCommand(index, command, false);
+    }
+    
+    /**
+     * send the forward play command for a particular deck
+     * @param index The connected index
+     * @param deck The deck number
+     */
+    public void sendForwardPlay(int index, int deck) {
+        String command = properties.getProperty("deck" + deck + ".play.for");
+        sendCommand(index, command, false);
+    }
+    
+    /**
+     * send the record command for a particular deck
+     * @param index The connected index
+     * @param deck The deck number
+     */
+    public void sendRecord(int index, int deck) {
+        String command = properties.getProperty("deck" + deck + ".rec");
+        sendCommand(index, command, false);
+    }
+    
+    /**
+     * send the record mute command for a particular deck
+     * @param index The connected index
+     * @param deck The deck number
+     */
+    public void sendRecordMute(int index, int deck) {
+        String command = properties.getProperty("deck" + deck + ".rec.mute");
+        sendCommand(index, command, false);
     }
     
     /**

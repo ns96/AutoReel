@@ -5,10 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
 import javax.swing.Timer;
+import javax.swing.border.TitledBorder;
 
 /**
  * The UI for the the autoreel program which controls R2R tape decks
- * GX77 Remote Commands:
+ * GX77/Teac X7R/X10R Remote Commands:
    STOP - 0
    PLAY - 1
    REW - 2
@@ -25,24 +26,40 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private int connectIndex2 = -1;
     private int connectIndex3 = -1;
     private int connectIndex4 = -1;
+    private int connectIndex5 = -1;
+    private int connectIndex6 = -1;
+    
+    // the names of the r2r decks
+    private String deckName1 = "R2R #1";
+    private String deckName2 = "R2R #2";
+    private String deckName3 = "R2R #3";
+    private String deckName4 = "R2R #4";
+    private String deckName5 = "R2R #5";
+    private String deckName6 = "R2R #6";
     
     // the timers for stoping the timer
     private Timer timer1;
     private Timer timer2;
     private Timer timer3;
     private Timer timer4;
+    private Timer timer5;
+    private Timer timer6;
     
-    // String to keep track of direction we are laying
+    // String to keep track of direction we are playing
     private String prefix1 = "+";
     private String prefix2 = "+";
     private String prefix3 = "+";
     private String prefix4 = "+";
+    private String prefix5 = "+";
+    private String prefix6 = "+";
     
     // keep track of if we are to stop auto play
     private boolean stopAutoPlay1 = false;
     private boolean stopAutoPlay2 = false;
     private boolean stopAutoPlay3 = false;
     private boolean stopAutoPlay4 = false;
+    private boolean stopAutoPlay5 = false;
+    private boolean stopAutoPlay6 = false;
     
     /**
      * Creates new form AutoReelFrame
@@ -69,6 +86,15 @@ public class AutoReelFrame extends javax.swing.JFrame {
         // set the comm ports
         setCommPorts(autoReel.getPorts(false));
         
+        // update the UI with values from the properties files
+        updateDeckCommPort();
+        updateDeckParameters();
+    }
+    
+    /**
+     * Set the comm port for the decks
+     */
+    private void updateDeckCommPort() {
         // update the comm port for the particular deck
         String key = "deck1.comm";
         Object commPort = autoReel.properties.get(key);
@@ -89,13 +115,179 @@ public class AutoReelFrame extends javax.swing.JFrame {
         commPort = autoReel.properties.get(key);
         if(commPort != null)
             commPortComboBox4.setSelectedItem(commPort);
+        
+        key = "deck5.comm";
+        commPort = autoReel.properties.get(key);
+        if(commPort != null)
+            commPortComboBox5.setSelectedItem(commPort);
+        
+        key = "deck6.comm";
+        commPort = autoReel.properties.get(key);
+        if(commPort != null)
+            commPortComboBox6.setSelectedItem(commPort);
     }
     
     /**
-     * Update the R2R/Tape Deck Panels with name and values
+     * Update the R2R/Tape Deck Panels with name and values.
+     * 
+     * TO-DO 2/9/2023 Place this code is for loop to make it easier to add new decks
      */
-    private void updateTapeDeckPanels() {
+    private void updateDeckParameters() {
+        // values for deck 1
+        TitledBorder border = (TitledBorder)deck1Panel.getBorder();
+        String key = "deck1.aname";
+        Object value = autoReel.properties.get(key);
+        if(value != null) {
+            deckName1 = value.toString();
+            border.setTitle(deckName1);
+            reel1CheckBox.setText(deckName1);
+        }
         
+        key = "deck1.time.start";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            startTimeTextField1.setText(value.toString());
+        
+        key = "deck1.time.end";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            endTimeTextField1.setText(value.toString());
+        
+        key = "deck1.time.rewind";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            rewindTimeTextField1.setText(value.toString());
+        
+        // values for deck 2
+        border = (TitledBorder)deck2Panel.getBorder();
+        key = "deck2.aname";
+        value = autoReel.properties.get(key);
+        if(value != null) {
+            deckName2 = value.toString();
+            border.setTitle(deckName2);
+            reel2CheckBox.setText(deckName2);
+        }
+        
+        key = "deck2.time.start";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            startTimeTextField2.setText(value.toString());
+        
+        key = "deck2.time.end";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            endTimeTextField2.setText(value.toString());
+        
+        key = "deck2.time.rewind";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            rewindTimeTextField2.setText(value.toString());
+        
+        // values for deck 3
+        border = (TitledBorder)deck3Panel.getBorder();
+        key = "deck3.aname";
+        value = autoReel.properties.get(key);
+        if(value != null) {
+            deckName3 = value.toString();
+            border.setTitle(deckName3);
+            reel3CheckBox.setText(deckName3);
+        }
+        
+        border = (TitledBorder)deck3Panel.getBorder();
+        key = "deck3.aname";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            border.setTitle(value.toString());
+        
+        key = "deck3.time.start";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            startTimeTextField3.setText(value.toString());
+        
+        key = "deck3.time.end";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            endTimeTextField3.setText(value.toString());
+        
+        key = "deck3.time.rewind";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            rewindTimeTextField3.setText(value.toString());
+        
+        // values for deck 4
+        border = (TitledBorder)deck4Panel.getBorder();
+        key = "deck4.aname";
+        value = autoReel.properties.get(key);
+        if(value != null) {
+            deckName4 = value.toString();
+            border.setTitle(deckName4);
+            reel4CheckBox.setText(deckName4);
+        }
+        
+        key = "deck4.time.start";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            startTimeTextField4.setText(value.toString());
+        
+        key = "deck4.time.end";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            endTimeTextField4.setText(value.toString());
+        
+        key = "deck4.time.rewind";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            rewindTimeTextField4.setText(value.toString());
+        
+        // values for deck 5
+        border = (TitledBorder)deck5Panel.getBorder();
+        key = "deck5.aname";
+        value = autoReel.properties.get(key);
+        if(value != null) {
+            deckName5 = value.toString();
+            border.setTitle(deckName5);
+            reel5CheckBox.setText(deckName5);
+        }
+        
+        key = "deck5.time.start";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            startTimeTextField5.setText(value.toString());
+        
+        key = "deck5.time.end";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            endTimeTextField5.setText(value.toString());
+        
+        key = "deck5.time.rewind";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            rewindTimeTextField5.setText(value.toString());
+        
+        // values for deck 6
+        border = (TitledBorder)deck6Panel.getBorder();
+        key = "deck6.aname";
+        value = autoReel.properties.get(key);
+        if(value != null) {
+            deckName6 = value.toString();
+            border.setTitle(deckName6);
+            reel6CheckBox.setText(deckName6);
+        }
+        
+        key = "deck6.time.start";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            startTimeTextField6.setText(value.toString());
+        
+        key = "deck6.time.end";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            endTimeTextField6.setText(value.toString());
+        
+        key = "deck6.time.rewind";
+        value = autoReel.properties.get(key);
+        if(value != null)
+            rewindTimeTextField6.setText(value.toString());
     }
     
     /**
@@ -108,12 +300,16 @@ public class AutoReelFrame extends javax.swing.JFrame {
         commPortComboBox2.removeAllItems();
         commPortComboBox3.removeAllItems();
         commPortComboBox4.removeAllItems();
+        commPortComboBox5.removeAllItems();
+        commPortComboBox6.removeAllItems();
         
         for(String port: ports) {
             commPortComboBox1.addItem(port);
             commPortComboBox2.addItem(port);
             commPortComboBox3.addItem(port);
             commPortComboBox4.addItem(port);
+            commPortComboBox5.addItem(port);
+            commPortComboBox6.addItem(port);
         }
     }
 
@@ -226,6 +422,53 @@ public class AutoReelFrame extends javax.swing.JFrame {
         reverseModeCheckBox4 = new javax.swing.JCheckBox();
         jLabel21 = new javax.swing.JLabel();
         recordToggleButton4 = new javax.swing.JToggleButton();
+        jPanel8 = new javax.swing.JPanel();
+        deck5Panel = new javax.swing.JPanel();
+        connectButton5 = new javax.swing.JButton();
+        commPortComboBox5 = new javax.swing.JComboBox<>();
+        closePortButton5 = new javax.swing.JButton();
+        jPanel12 = new javax.swing.JPanel();
+        rewindButton5 = new javax.swing.JButton();
+        stopButton5 = new javax.swing.JButton();
+        forwardButton5 = new javax.swing.JButton();
+        reversePlayButton5 = new javax.swing.JButton();
+        timerLabel5 = new javax.swing.JLabel();
+        forwardPlayButton5 = new javax.swing.JButton();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        startTimeTextField5 = new javax.swing.JTextField();
+        endTimeTextField5 = new javax.swing.JTextField();
+        rewindTimeTextField5 = new javax.swing.JTextField();
+        autoPlayButton5 = new javax.swing.JButton();
+        jLabel25 = new javax.swing.JLabel();
+        autoPlayEndComboBox5 = new javax.swing.JComboBox<>();
+        reverseModeCheckBox5 = new javax.swing.JCheckBox();
+        jLabel26 = new javax.swing.JLabel();
+        recordToggleButton5 = new javax.swing.JToggleButton();
+        deck6Panel = new javax.swing.JPanel();
+        connectButton6 = new javax.swing.JButton();
+        commPortComboBox6 = new javax.swing.JComboBox<>();
+        closePortButton6 = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        rewindButton6 = new javax.swing.JButton();
+        stopButton6 = new javax.swing.JButton();
+        forwardButton6 = new javax.swing.JButton();
+        reversePlayButton6 = new javax.swing.JButton();
+        timerLabel6 = new javax.swing.JLabel();
+        forwardPlayButton6 = new javax.swing.JButton();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        startTimeTextField6 = new javax.swing.JTextField();
+        endTimeTextField6 = new javax.swing.JTextField();
+        rewindTimeTextField6 = new javax.swing.JTextField();
+        autoPlayButton6 = new javax.swing.JButton();
+        jLabel30 = new javax.swing.JLabel();
+        autoPlayEndComboBox6 = new javax.swing.JComboBox<>();
+        reverseModeCheckBox6 = new javax.swing.JCheckBox();
+        jLabel31 = new javax.swing.JLabel();
+        recordToggleButton6 = new javax.swing.JToggleButton();
         jPanel11 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         reel1CheckBox = new javax.swing.JCheckBox();
@@ -236,10 +479,12 @@ public class AutoReelFrame extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         startDelayTextField = new javax.swing.JTextField();
         reel4CheckBox = new javax.swing.JCheckBox();
+        reel5CheckBox = new javax.swing.JCheckBox();
+        reel6CheckBox = new javax.swing.JCheckBox();
         setupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AutoReel Controller v0.4.2 (02/05/2023)");
+        setTitle("AutoReel Controller v0.5.0 (02/09/2023)");
 
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -279,7 +524,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
 
-        deck1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC 2300SD"));
+        deck1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("R2R #1"));
 
         connectButton1.setText("CONNECT TO COMM PORT");
         connectButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -420,7 +665,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
         jPanel6.add(deck1Panel);
 
-        deck2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("AKAI GX77"));
+        deck2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("R2R #2"));
 
         connectButton2.setText("CONNECT TO COMM PORT");
         connectButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -563,7 +808,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
         jPanel7.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
 
-        deck3Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC X10R"));
+        deck3Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("R2R #3"));
 
         connectButton3.setText("CONNECT TO COMM PORT");
         connectButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -714,7 +959,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
         jPanel7.add(deck3Panel);
 
-        deck4Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("TEAC X7R"));
+        deck4Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("R2R #4"));
 
         connectButton4.setText("CONNECT TO COMM PORT");
         connectButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -866,6 +1111,311 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Reel To Reels", jPanel7);
 
+        jPanel8.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
+        deck5Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("R2R #5"));
+
+        connectButton5.setText("CONNECT TO COMM PORT");
+        connectButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButton5ActionPerformed(evt);
+            }
+        });
+
+        commPortComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "COMM PORT 1", "COMM PORT 2" }));
+
+        closePortButton5.setText("CLOSE PORT");
+        closePortButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closePortButton5ActionPerformed(evt);
+            }
+        });
+
+        jPanel12.setLayout(new java.awt.GridLayout(6, 0));
+
+        rewindButton5.setText("<<<");
+        rewindButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rewindButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(rewindButton5);
+
+        stopButton5.setText("STOP");
+        stopButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(stopButton5);
+
+        forwardButton5.setText(">>>");
+        forwardButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forwardButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(forwardButton5);
+
+        reversePlayButton5.setText("< PLAY");
+        reversePlayButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reversePlayButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(reversePlayButton5);
+
+        timerLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        timerLabel5.setForeground(java.awt.Color.blue);
+        timerLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timerLabel5.setText("00:00:00");
+        jPanel12.add(timerLabel5);
+
+        forwardPlayButton5.setText("PLAY >");
+        forwardPlayButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forwardPlayButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(forwardPlayButton5);
+
+        jLabel22.setText("START TIME");
+        jPanel12.add(jLabel22);
+
+        jLabel23.setText("END TIME");
+        jPanel12.add(jLabel23);
+
+        jLabel24.setText("REWIND TIME (seconds)");
+        jPanel12.add(jLabel24);
+
+        startTimeTextField5.setText("0");
+        startTimeTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startTimeTextField5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(startTimeTextField5);
+
+        endTimeTextField5.setText("4500");
+        endTimeTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endTimeTextField5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(endTimeTextField5);
+
+        rewindTimeTextField5.setText("90");
+        rewindTimeTextField5.setToolTipText("");
+        jPanel12.add(rewindTimeTextField5);
+
+        autoPlayButton5.setText("START AUTO PLAY");
+        autoPlayButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoPlayButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(autoPlayButton5);
+
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel25.setText("AT END OF PLAY: ");
+        jPanel12.add(jLabel25);
+
+        autoPlayEndComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "STOP", "REWIND", "PLAY REVERSE" }));
+        jPanel12.add(autoPlayEndComboBox5);
+
+        reverseModeCheckBox5.setText("Reverse Mode");
+        jPanel12.add(reverseModeCheckBox5);
+
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel26.setText("SET RECORD MODE: ");
+        jPanel12.add(jLabel26);
+
+        recordToggleButton5.setText("RECORD");
+        recordToggleButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recordToggleButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(recordToggleButton5);
+
+        javax.swing.GroupLayout deck5PanelLayout = new javax.swing.GroupLayout(deck5Panel);
+        deck5Panel.setLayout(deck5PanelLayout);
+        deck5PanelLayout.setHorizontalGroup(
+            deck5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck5PanelLayout.createSequentialGroup()
+                .addComponent(connectButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(commPortComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(closePortButton5))
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        deck5PanelLayout.setVerticalGroup(
+            deck5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck5PanelLayout.createSequentialGroup()
+                .addGroup(deck5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(connectButton5)
+                    .addComponent(commPortComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closePortButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
+        );
+
+        jPanel8.add(deck5Panel);
+
+        deck6Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("R2R #6"));
+
+        connectButton6.setText("CONNECT TO COMM PORT");
+        connectButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButton6ActionPerformed(evt);
+            }
+        });
+
+        commPortComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "COMM PORT 1", "COMM PORT 2" }));
+
+        closePortButton6.setText("CLOSE PORT");
+        closePortButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closePortButton6ActionPerformed(evt);
+            }
+        });
+
+        jPanel14.setLayout(new java.awt.GridLayout(6, 0));
+
+        rewindButton6.setText("<<<");
+        rewindButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rewindButton6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(rewindButton6);
+
+        stopButton6.setText("STOP");
+        stopButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButton6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(stopButton6);
+
+        forwardButton6.setText(">>>");
+        forwardButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forwardButton6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(forwardButton6);
+
+        reversePlayButton6.setText("< PLAY");
+        reversePlayButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reversePlayButton6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(reversePlayButton6);
+
+        timerLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        timerLabel6.setForeground(java.awt.Color.blue);
+        timerLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timerLabel6.setText("00:00:00");
+        jPanel14.add(timerLabel6);
+
+        forwardPlayButton6.setText("PLAY >");
+        forwardPlayButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forwardPlayButton6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(forwardPlayButton6);
+
+        jLabel27.setText("START TIME");
+        jPanel14.add(jLabel27);
+
+        jLabel28.setText("END TIME");
+        jPanel14.add(jLabel28);
+
+        jLabel29.setText("REWIND TIME (seconds)");
+        jPanel14.add(jLabel29);
+
+        startTimeTextField6.setText("0");
+        jPanel14.add(startTimeTextField6);
+
+        endTimeTextField6.setText("3600");
+        endTimeTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endTimeTextField6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(endTimeTextField6);
+
+        rewindTimeTextField6.setText("75");
+        rewindTimeTextField6.setToolTipText("");
+        rewindTimeTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rewindTimeTextField6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(rewindTimeTextField6);
+
+        autoPlayButton6.setText("START AUTO PLAY");
+        autoPlayButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoPlayButton6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(autoPlayButton6);
+
+        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel30.setText("AT END OF PLAY: ");
+        jPanel14.add(jLabel30);
+
+        autoPlayEndComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "STOP", "REWIND", "PLAY REVERSE" }));
+        jPanel14.add(autoPlayEndComboBox6);
+
+        reverseModeCheckBox6.setText("Reverse Mode");
+        jPanel14.add(reverseModeCheckBox6);
+
+        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel31.setText("SET RECORD MODE: ");
+        jPanel14.add(jLabel31);
+
+        recordToggleButton6.setText("RECORD");
+        recordToggleButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recordToggleButton6ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(recordToggleButton6);
+
+        javax.swing.GroupLayout deck6PanelLayout = new javax.swing.GroupLayout(deck6Panel);
+        deck6Panel.setLayout(deck6PanelLayout);
+        deck6PanelLayout.setHorizontalGroup(
+            deck6PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck6PanelLayout.createSequentialGroup()
+                .addComponent(connectButton6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(commPortComboBox6, 0, 234, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(closePortButton6))
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        deck6PanelLayout.setVerticalGroup(
+            deck6PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deck6PanelLayout.createSequentialGroup()
+                .addGroup(deck6PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(connectButton6)
+                    .addComponent(commPortComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closePortButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel8.add(deck6Panel);
+
+        jTabbedPane1.addTab("Reel To Reels", jPanel8);
+
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Synchro Play"));
 
         reel1CheckBox.setSelected(true);
@@ -898,29 +1448,40 @@ public class AutoReelFrame extends javax.swing.JFrame {
         reel4CheckBox.setSelected(true);
         reel4CheckBox.setText("TEAC X7R");
 
+        reel5CheckBox.setSelected(true);
+        reel5CheckBox.setText("REEL 2 REEL #5");
+
+        reel6CheckBox.setSelected(true);
+        reel6CheckBox.setText("REEL 2 REEL #6");
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(reel1CheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                    .addComponent(autoPlayAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(reel2CheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(autoPlayAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(reel4CheckBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(reel1CheckBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(reel3CheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(reel4CheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(85, Short.MAX_VALUE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(startDelayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stopAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                        .addComponent(stopAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(reel5CheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(reel2CheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(reel3CheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(reel6CheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -928,9 +1489,13 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(reel1CheckBox)
                     .addComponent(reel2CheckBox)
-                    .addComponent(reel3CheckBox)
-                    .addComponent(reel4CheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                    .addComponent(reel3CheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reel4CheckBox)
+                    .addComponent(reel5CheckBox)
+                    .addComponent(reel6CheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stopAllButton)
                     .addComponent(autoPlayAllButton)
@@ -952,7 +1517,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(309, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Synchro Play", jPanel11);
@@ -1026,13 +1591,13 @@ public class AutoReelFrame extends javax.swing.JFrame {
         if(connectIndex1 != -1) {
             connectButton1.setBackground(Color.GREEN);
             connectButton1.setEnabled(false);
-            consoleTextArea.append("Teac 2300SD Connected ...\n");
+            consoleTextArea.append(deckName1 + " Connected ...\n");
         }
     }//GEN-LAST:event_connectButton1ActionPerformed
 
     private void forwardPlayButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardPlayButton1ActionPerformed
         consoleTextArea.append("Send PLAY (1) ...\n");
-        autoReel.sendCommand(connectIndex1, "PLAY", false);
+        autoReel.sendForwardPlay(connectIndex1, 1);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_forwardPlayButton1ActionPerformed
 
@@ -1040,7 +1605,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         consoleTextArea.append("Send STOP (1) ...\n");
         
         synchronized(this) { // make sure only one thread at a time calls this
-            autoReel.sendCommand(connectIndex1, "STOP", false);
+            autoReel.sendStop(connectIndex1, 1);
         }
         
         consoleTextArea.append("Done ...\n");
@@ -1050,19 +1615,19 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
     private void rewindButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rewindButton1ActionPerformed
         consoleTextArea.append("Send REWIND (1) ...\n");
-        autoReel.sendCommand(connectIndex1, "REV", false);
+        autoReel.sendRewind(connectIndex1, 1);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_rewindButton1ActionPerformed
 
     private void forwardButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButton1ActionPerformed
         consoleTextArea.append("Send F.FORWARD (1) ...\n");
-        autoReel.sendCommand(connectIndex1, "FF", false);
+        autoReel.sendFastForward(connectIndex1, 1);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_forwardButton1ActionPerformed
 
     private void reversePlayButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reversePlayButton1ActionPerformed
         consoleTextArea.append("Send REVERSE PLAY (1) ...\n");
-        autoReel.sendCommand(connectIndex1, "REV_PLAY", false);
+        autoReel.sendReversePlay(connectIndex1, 1);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_reversePlayButton1ActionPerformed
 
@@ -1077,7 +1642,6 @@ public class AutoReelFrame extends javax.swing.JFrame {
                 int end = Integer.parseInt(endTimeTextField1.getText());
                 int rewindEnd = Integer.parseInt(rewindTimeTextField1.getText());
                 int rewindTime = 0;
-                String prefix = "+";
                 String timeString;
                 
                 @Override
@@ -1106,21 +1670,21 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             timer1.stop();
                         } else if(stopMode.equals("PLAY REVERSE")) {
                             start = 0; // reset start value
-                            prefix = "-";
+                            prefix1 = "-";
                             autoPlayEndComboBox1.setSelectedIndex(0); // set it stop so we stop at the beginning
                             reversePlayButton1.doClick();
                             consoleTextArea.append("AutoPlay 1 Reverse Play ...\n");
                         } else {// must be rewind so we need to 
                             // we now can start rewind
                             if (rewindTime == 0) {
-                                prefix = "-";
+                                prefix1 = "-";
                                 rewindButton1.doClick();
                             }
 
                             rewindTime++;
                             int diff = rewindEnd - rewindTime;
                             timeString = autoReel.getTimeString(diff) + " | (" + diff + ")";
-                            timerLabel1.setText(prefix + timeString);
+                            timerLabel1.setText(prefix1 + timeString);
                             
                             if (rewindTime > rewindEnd || stopAutoPlay1) {
                                 autoPlayEndComboBox1.setSelectedIndex(0);
@@ -1128,7 +1692,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         }
                     } else {
                         timeString = autoReel.getTimeString(start) + " | (" + start + ")";
-                        timerLabel1.setText(prefix + timeString);
+                        timerLabel1.setText(prefix1 + timeString);
                     }
                 }
             });
@@ -1137,7 +1701,14 @@ public class AutoReelFrame extends javax.swing.JFrame {
             // disable the button
             consoleTextArea.append("Starting AutoPlay 1 ...\n");
             autoPlayButton1.setEnabled(false);
-            forwardPlayButton1.doClick();
+            
+            if(!reverseModeCheckBox1.isSelected()) {
+                prefix1 = "+";
+                forwardPlayButton1.doClick();
+            } else {
+                prefix1 = "-";
+                reversePlayButton1.doClick();
+            }
         } catch(NumberFormatException nfe) {
             nfe.printStackTrace();
         }
@@ -1238,20 +1809,20 @@ public class AutoReelFrame extends javax.swing.JFrame {
         if(connectIndex2 != -1) {
             connectButton2.setBackground(Color.GREEN);
             connectButton2.setEnabled(false);
-            consoleTextArea.append("GX77 Connected ...\n");
+            consoleTextArea.append(deckName2 + " Connected ...\n");
         }
     }//GEN-LAST:event_connectButton2ActionPerformed
 
     private void rewindButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rewindButton2ActionPerformed
         consoleTextArea.append("Send REWIND (2) ...\n");
-        autoReel.sendCommand(connectIndex2, "2", false);
+        autoReel.sendRewind(connectIndex2, 2);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_rewindButton2ActionPerformed
 
     private void stopButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButton2ActionPerformed
         consoleTextArea.append("Send STOP (2) ...\n");
         synchronized(this) { // make sure only one thread at a time calls this
-            autoReel.sendCommand(connectIndex2, "0", false);
+            autoReel.sendStop(connectIndex2, 2);
         }
         consoleTextArea.append("Done ...\n");
         
@@ -1260,19 +1831,19 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
     private void forwardButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButton2ActionPerformed
         consoleTextArea.append("Send F.FORWARD (2) ...\n");
-        autoReel.sendCommand(connectIndex2, "3", false);
+        autoReel.sendFastForward(connectIndex2, 2);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_forwardButton2ActionPerformed
 
     private void reversePlayButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reversePlayButton2ActionPerformed
         consoleTextArea.append("Send REVERSE PLAY (2) ...\n");
-        autoReel.sendCommand(connectIndex2, "6", false);
+        autoReel.sendReversePlay(connectIndex2, 2);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_reversePlayButton2ActionPerformed
 
     private void forwardPlayButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardPlayButton2ActionPerformed
         consoleTextArea.append("Send PLAY (2) ...\n");
-        autoReel.sendCommand(connectIndex2, "1", false);
+        autoReel.sendForwardPlay(connectIndex2, 2);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_forwardPlayButton2ActionPerformed
 
@@ -1284,7 +1855,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         if(connectIndex3 != -1) {
             connectButton3.setBackground(Color.GREEN);
             connectButton3.setEnabled(false);
-            consoleTextArea.append("Teac X10R Connected ...\n");
+            consoleTextArea.append(deckName3 + " Connected ...\n");
         }
     }//GEN-LAST:event_connectButton3ActionPerformed
 
@@ -1298,14 +1869,14 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
     private void rewindButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rewindButton3ActionPerformed
         consoleTextArea.append("Send REWIND (3) ...\n");
-        autoReel.sendCommand(connectIndex3, "2", false);
+        autoReel.sendRewind(connectIndex3, 3);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_rewindButton3ActionPerformed
 
     private void stopButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButton3ActionPerformed
         consoleTextArea.append("Send STOP (3) ...\n");
         synchronized(this) { // make sure only one thread at a time calls this
-            autoReel.sendCommand(connectIndex3, "0", false);
+            autoReel.sendStop(connectIndex3, 3);
         }
         consoleTextArea.append("Done ...\n");
         
@@ -1314,19 +1885,19 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
     private void forwardButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButton3ActionPerformed
         consoleTextArea.append("Send F.FORWARD (3) ...\n");
-        autoReel.sendCommand(connectIndex3, "3", false);
+        autoReel.sendFastForward(connectIndex3, 3);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_forwardButton3ActionPerformed
 
     private void reversePlayButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reversePlayButton3ActionPerformed
         consoleTextArea.append("Send REVERSE PLAY (3) ...\n");
-        autoReel.sendCommand(connectIndex3, "6", false);
+        autoReel.sendReversePlay(connectIndex3, 3);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_reversePlayButton3ActionPerformed
 
     private void forwardPlayButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardPlayButton3ActionPerformed
         consoleTextArea.append("Send PLAY (3) ...\n");
-        autoReel.sendCommand(connectIndex3, "1", false);
+        autoReel.sendForwardPlay(connectIndex3, 3);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_forwardPlayButton3ActionPerformed
 
@@ -1448,6 +2019,14 @@ public class AutoReelFrame extends javax.swing.JFrame {
             autoPlayButton4.doClick();
         }
         
+        if(reel5CheckBox.isSelected()) {
+            autoPlayButton5.doClick();
+        }
+        
+        if(reel6CheckBox.isSelected()) {
+            autoPlayButton6.doClick();
+        }
+        
         consoleTextArea.append("\nSynchro Play STARTED ...\n\n");
     }
     
@@ -1485,7 +2064,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         if(connectIndex4 != -1) {
             connectButton4.setBackground(Color.GREEN);
             connectButton4.setEnabled(false);
-            consoleTextArea.append("Teac X7R Connected ...\n");
+            consoleTextArea.append(deckName4 + " Connected ...\n");
         }
     }//GEN-LAST:event_connectButton4ActionPerformed
 
@@ -1499,14 +2078,14 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
     private void rewindButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rewindButton4ActionPerformed
         consoleTextArea.append("Send REWIND (4) ...\n");
-        autoReel.sendCommand(connectIndex4, "2", false);
+        autoReel.sendRewind(connectIndex4, 4);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_rewindButton4ActionPerformed
 
     private void stopButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButton4ActionPerformed
         consoleTextArea.append("Send STOP (4) ...\n");
         synchronized(this) { // make sure only one thread at a time calls this
-            autoReel.sendCommand(connectIndex4, "0", false);
+            autoReel.sendStop(connectIndex4, 4);
         }
         consoleTextArea.append("Done ...\n");
         
@@ -1515,19 +2094,19 @@ public class AutoReelFrame extends javax.swing.JFrame {
 
     private void forwardButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButton4ActionPerformed
         consoleTextArea.append("Send F.FORWARD (4) ...\n");
-        autoReel.sendCommand(connectIndex4, "3", false);
+        autoReel.sendFastForward(connectIndex4, 4);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_forwardButton4ActionPerformed
 
     private void reversePlayButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reversePlayButton4ActionPerformed
         consoleTextArea.append("Send REVERSE PLAY (4) ...\n");
-        autoReel.sendCommand(connectIndex4, "6", false);
+        autoReel.sendReversePlay(connectIndex4, 4);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_reversePlayButton4ActionPerformed
 
     private void forwardPlayButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardPlayButton4ActionPerformed
         consoleTextArea.append("Send PLAY (4) ...\n");
-        autoReel.sendCommand(connectIndex4, "1", false);
+        autoReel.sendForwardPlay(connectIndex4, 4);
         consoleTextArea.append("Done ...\n");
     }//GEN-LAST:event_forwardPlayButton4ActionPerformed
 
@@ -1630,7 +2209,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private void recordToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton1ActionPerformed
         if(recordToggleButton1.isSelected()) {
             consoleTextArea.append("Send REC Command (1) ...\n");
-            autoReel.sendCommand(connectIndex1, "REC", false);
+            autoReel.sendRecord(connectIndex1, 1);
             consoleTextArea.append("Done ...\n");
         } else {
             stopButton1.doClick();
@@ -1640,7 +2219,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private void recordToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton2ActionPerformed
         if(recordToggleButton2.isSelected()) {
             consoleTextArea.append("Send REC Command (2) ...\n");
-            autoReel.sendCommand(connectIndex2, "5", false);
+            autoReel.sendRecord(connectIndex2, 2);
             consoleTextArea.append("Done ...\n");
         } else {
             stopButton2.doClick();
@@ -1650,7 +2229,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private void recordToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton3ActionPerformed
         if(recordToggleButton3.isSelected()) {
             consoleTextArea.append("Send REC Command (3) ...\n");
-            autoReel.sendCommand(connectIndex3, "5", false);
+            autoReel.sendRecord(connectIndex3, 3);
             consoleTextArea.append("Done ...\n");
         } else {
             stopButton3.doClick();
@@ -1660,7 +2239,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private void recordToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton4ActionPerformed
         if(recordToggleButton4.isSelected()) {
             consoleTextArea.append("Send REC Command (4) ...\n");
-            autoReel.sendCommand(connectIndex4, "5", false);
+            autoReel.sendRecord(connectIndex4, 4);
             consoleTextArea.append("Done ...\n");
         } else {
             stopButton4.doClick();
@@ -1674,47 +2253,369 @@ public class AutoReelFrame extends javax.swing.JFrame {
         setupDialog.setVisible(true);
     }//GEN-LAST:event_setupButtonActionPerformed
 
+    private void connectButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButton5ActionPerformed
+        String port = commPortComboBox5.getSelectedItem().toString();
+        consoleTextArea.append("Connecting to port: " + port + "\n");
+        connectIndex5 = autoReel.connect(port);
+        
+        if(connectIndex5 != -1) {
+            connectButton5.setBackground(Color.GREEN);
+            connectButton5.setEnabled(false);
+            consoleTextArea.append(deckName5 + " Connected ...\n");
+        }
+    }//GEN-LAST:event_connectButton5ActionPerformed
+
+    private void closePortButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closePortButton5ActionPerformed
+        if(connectIndex5 != -1) {
+            autoReel.disconnect(connectIndex5);
+            connectButton5.setBackground(Color.YELLOW);
+            connectButton5.setEnabled(true);
+        }
+    }//GEN-LAST:event_closePortButton5ActionPerformed
+
+    private void rewindButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rewindButton5ActionPerformed
+        consoleTextArea.append("Send REWIND (5) ...\n");
+        autoReel.sendRewind(connectIndex5, 5);
+        consoleTextArea.append("Done ...\n");
+    }//GEN-LAST:event_rewindButton5ActionPerformed
+
+    private void stopButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButton5ActionPerformed
+        consoleTextArea.append("Send STOP (5) ...\n");
+        synchronized(this) { // make sure only one thread at a time calls this
+            autoReel.sendStop(connectIndex5, 5);
+        }
+        consoleTextArea.append("Done ...\n");
+        
+        stopAutoPlay5 = true;
+    }//GEN-LAST:event_stopButton5ActionPerformed
+
+    private void forwardButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButton5ActionPerformed
+        consoleTextArea.append("Send F.FORWARD (5) ...\n");
+        autoReel.sendFastForward(connectIndex5, 5);
+        consoleTextArea.append("Done ...\n");
+    }//GEN-LAST:event_forwardButton5ActionPerformed
+
+    private void reversePlayButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reversePlayButton5ActionPerformed
+        consoleTextArea.append("Send REVERSE PLAY (5) ...\n");
+        autoReel.sendReversePlay(connectIndex5, 5);
+        consoleTextArea.append("Done ...\n");
+    }//GEN-LAST:event_reversePlayButton5ActionPerformed
+
+    private void forwardPlayButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardPlayButton5ActionPerformed
+        consoleTextArea.append("Send PLAY (5) ...\n");
+        autoReel.sendForwardPlay(connectIndex5, 5);
+        consoleTextArea.append("Done ...\n");
+    }//GEN-LAST:event_forwardPlayButton5ActionPerformed
+
+    private void startTimeTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTimeTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_startTimeTextField5ActionPerformed
+
+    private void endTimeTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endTimeTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_endTimeTextField5ActionPerformed
+
+    private void autoPlayButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoPlayButton5ActionPerformed
+        try {
+            stopAutoPlay5 = false;
+            
+            // start the timer
+            timer5 = new Timer(1000, new ActionListener() {
+                // start and end need to be ocnverted to seconds
+                int start = Integer.parseInt(startTimeTextField5.getText());
+                int end = Integer.parseInt(endTimeTextField5.getText());
+                int rewindEnd = Integer.parseInt(rewindTimeTextField5.getText());
+                int rewindTime = 0;
+                String timeString;
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    start += 1;
+                    
+                    if(start > end || stopAutoPlay5) {
+                        String stopMode = autoPlayEndComboBox5.getSelectedItem().toString();
+                        
+                        if(stopAutoPlay5) {
+                            autoPlayEndComboBox5.setSelectedIndex(0);
+                            stopMode = "STOP";
+                        }
+                        
+                        if(stopMode.equals("STOP")) {
+                            if(!stopAutoPlay5) {
+                                stopButton5.doClick();
+                            }
+                            autoPlayButton5.setEnabled(true);
+                            timerLabel5.setText("00:00:00");
+                            consoleTextArea.append("AutoPlay 5 Stopped ...\n");
+                            
+                            timer5.stop();
+                        } else if(stopMode.equals("PLAY REVERSE")) {
+                            start = 0; // reset start value
+                            prefix5 = "-";
+                            autoPlayEndComboBox5.setSelectedIndex(0); // set it stop so we stop at the beginning
+                            reversePlayButton5.doClick();
+                            consoleTextArea.append("AutoPlay 5 Reverse Play ...\n");
+                        } else {// must be rewind so we need to 
+                            // we now can start rewind
+                            if (rewindTime == 0) {
+                                prefix5 = "-";
+                                rewindButton5.doClick();
+                            }
+
+                            rewindTime++;
+                            int diff = rewindEnd - rewindTime;
+                            timeString = autoReel.getTimeString(diff) + " | (" + diff + ")";
+                            timerLabel5.setText(prefix5 + timeString);
+                            
+                            if (rewindTime > rewindEnd || stopAutoPlay5) {
+                                autoPlayEndComboBox5.setSelectedIndex(0);
+                            } 
+                        }
+                    } else {
+                        timeString = autoReel.getTimeString(start) + " | (" + start + ")";
+                        timerLabel5.setText(prefix5 + timeString);
+                    }
+                }
+            });
+            timer5.start();
+            
+            // disable the button
+            consoleTextArea.append("Starting AutoPlay 5 ...\n");
+            autoPlayButton5.setEnabled(false);
+            
+            if(!reverseModeCheckBox5.isSelected()) {
+                prefix5 = "+";
+                forwardPlayButton5.doClick();
+            } else {
+                prefix5 = "-";
+                reversePlayButton5.doClick();
+            }
+        } catch(NumberFormatException nfe) {
+            nfe.printStackTrace();
+        }
+    }//GEN-LAST:event_autoPlayButton5ActionPerformed
+
+    private void recordToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton5ActionPerformed
+        if(recordToggleButton5.isSelected()) {
+            consoleTextArea.append("Send REC Command (5) ...\n");
+            autoReel.sendRecord(connectIndex5, 5);
+            consoleTextArea.append("Done ...\n");
+        } else {
+            stopButton5.doClick();
+        }
+    }//GEN-LAST:event_recordToggleButton5ActionPerformed
+
+    private void connectButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButton6ActionPerformed
+        String port = commPortComboBox6.getSelectedItem().toString();
+        consoleTextArea.append("Connecting to port: " + port + "\n");
+        connectIndex6 = autoReel.connect(port);
+        
+        if(connectIndex6 != -1) {
+            connectButton6.setBackground(Color.GREEN);
+            connectButton6.setEnabled(false);
+            consoleTextArea.append(deckName6 + " Connected ...\n");
+        }
+    }//GEN-LAST:event_connectButton6ActionPerformed
+
+    private void closePortButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closePortButton6ActionPerformed
+        if(connectIndex6 != -1) {
+            autoReel.disconnect(connectIndex6);
+            connectButton6.setBackground(Color.YELLOW);
+            connectButton6.setEnabled(true);
+        }
+    }//GEN-LAST:event_closePortButton6ActionPerformed
+
+    private void rewindButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rewindButton6ActionPerformed
+        consoleTextArea.append("Send REWIND (6) ...\n");
+        autoReel.sendRewind(connectIndex6, 6);
+        consoleTextArea.append("Done ...\n");
+    }//GEN-LAST:event_rewindButton6ActionPerformed
+
+    private void stopButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButton6ActionPerformed
+        consoleTextArea.append("Send STOP (6) ...\n");
+        synchronized(this) { // make sure only one thread at a time calls this
+            autoReel.sendStop(connectIndex6, 6);
+        }
+        consoleTextArea.append("Done ...\n");
+        
+        stopAutoPlay6 = true;
+    }//GEN-LAST:event_stopButton6ActionPerformed
+
+    private void forwardButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButton6ActionPerformed
+        consoleTextArea.append("Send F.FORWARD (6) ...\n");
+        autoReel.sendFastForward(connectIndex6, 6);
+        consoleTextArea.append("Done ...\n");
+    }//GEN-LAST:event_forwardButton6ActionPerformed
+
+    private void reversePlayButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reversePlayButton6ActionPerformed
+        consoleTextArea.append("Send REVERSE PLAY (6) ...\n");
+        autoReel.sendReversePlay(connectIndex6, 6);
+        consoleTextArea.append("Done ...\n");
+    }//GEN-LAST:event_reversePlayButton6ActionPerformed
+
+    private void forwardPlayButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardPlayButton6ActionPerformed
+        consoleTextArea.append("Send PLAY (6) ...\n");
+        autoReel.sendForwardPlay(connectIndex6, 6);
+        consoleTextArea.append("Done ...\n");
+    }//GEN-LAST:event_forwardPlayButton6ActionPerformed
+
+    private void endTimeTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endTimeTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_endTimeTextField6ActionPerformed
+
+    private void rewindTimeTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rewindTimeTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rewindTimeTextField6ActionPerformed
+
+    private void autoPlayButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoPlayButton6ActionPerformed
+        try {
+            stopAutoPlay6 = false;
+            
+            // start the timer
+            timer6 = new Timer(1000, new ActionListener() {
+                // start and end need to be ocnverted to seconds
+                int start = Integer.parseInt(startTimeTextField6.getText());
+                int end = Integer.parseInt(endTimeTextField6.getText());
+                int rewindEnd = Integer.parseInt(rewindTimeTextField6.getText());
+                int rewindTime = 0;
+                String timeString;
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    start += 1;
+                    
+                    if(start > end || stopAutoPlay6) {
+                        String stopMode = autoPlayEndComboBox6.getSelectedItem().toString();
+                        
+                        if(stopAutoPlay6) {
+                            autoPlayEndComboBox6.setSelectedIndex(0);
+                            stopMode = "STOP";
+                        }
+                        
+                        if(stopMode.equals("STOP")) {
+                            if(!stopAutoPlay6) {
+                                stopButton6.doClick();
+                            }
+                            autoPlayButton6.setEnabled(true);
+                            timerLabel6.setText("00:00:00");
+                            consoleTextArea.append("AutoPlay 6 Stopped ...\n");
+                            
+                            timer6.stop();
+                        } else if(stopMode.equals("PLAY REVERSE")) {
+                            start = 0; // reset start value
+                            prefix6 = "-";
+                            autoPlayEndComboBox6.setSelectedIndex(0); // set it stop so we stop at the beginning
+                            reversePlayButton6.doClick();
+                            consoleTextArea.append("AutoPlay 6 Reverse Play ...\n");
+                        } else {// must be rewind so we need to 
+                            // we now can start rewind
+                            if (rewindTime == 0) {
+                                prefix6 = "-";
+                                rewindButton6.doClick();
+                            }
+
+                            rewindTime++;
+                            int diff = rewindEnd - rewindTime;
+                            timeString = autoReel.getTimeString(diff) + " | (" + diff + ")";
+                            timerLabel6.setText(prefix6 + timeString);
+                            
+                            if (rewindTime > rewindEnd || stopAutoPlay6) {
+                                autoPlayEndComboBox6.setSelectedIndex(0);
+                            } 
+                        }
+                    } else {
+                        timeString = autoReel.getTimeString(start) + " | (" + start + ")";
+                        timerLabel6.setText(prefix6 + timeString);
+                    }
+                }
+            });
+            timer6.start();
+            
+            // disable the button
+            consoleTextArea.append("Starting AutoPlay 6 ...\n");
+            autoPlayButton6.setEnabled(false);
+            
+            if(!reverseModeCheckBox6.isSelected()) {
+                prefix6 = "+";
+                forwardPlayButton6.doClick();
+            } else {
+                prefix6 = "-";
+                reversePlayButton6.doClick();
+            }
+        } catch(NumberFormatException nfe) {
+            nfe.printStackTrace();
+        }
+    }//GEN-LAST:event_autoPlayButton6ActionPerformed
+
+    private void recordToggleButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordToggleButton6ActionPerformed
+        if(recordToggleButton6.isSelected()) {
+            consoleTextArea.append("Send REC Command (6) ...\n");
+            autoReel.sendRecord(connectIndex6, 6);
+            consoleTextArea.append("Done ...\n");
+        } else {
+            stopButton6.doClick();
+        }
+    }//GEN-LAST:event_recordToggleButton6ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton autoPlayAllButton;
     private javax.swing.JButton autoPlayButton1;
     private javax.swing.JButton autoPlayButton2;
     private javax.swing.JButton autoPlayButton3;
     private javax.swing.JButton autoPlayButton4;
+    private javax.swing.JButton autoPlayButton5;
+    private javax.swing.JButton autoPlayButton6;
     private javax.swing.JComboBox<String> autoPlayEndComboBox1;
     private javax.swing.JComboBox<String> autoPlayEndComboBox2;
     private javax.swing.JComboBox<String> autoPlayEndComboBox3;
     private javax.swing.JComboBox<String> autoPlayEndComboBox4;
+    private javax.swing.JComboBox<String> autoPlayEndComboBox5;
+    private javax.swing.JComboBox<String> autoPlayEndComboBox6;
     private javax.swing.JButton clearConsoleButton;
     private javax.swing.JButton closeButton;
     private javax.swing.JButton closePortButton1;
     private javax.swing.JButton closePortButton2;
     private javax.swing.JButton closePortButton3;
     private javax.swing.JButton closePortButton4;
+    private javax.swing.JButton closePortButton5;
+    private javax.swing.JButton closePortButton6;
     private javax.swing.JComboBox<String> commPortComboBox1;
     private javax.swing.JComboBox<String> commPortComboBox2;
     private javax.swing.JComboBox<String> commPortComboBox3;
     private javax.swing.JComboBox<String> commPortComboBox4;
+    private javax.swing.JComboBox<String> commPortComboBox5;
+    private javax.swing.JComboBox<String> commPortComboBox6;
     private javax.swing.JButton connectButton1;
     private javax.swing.JButton connectButton2;
     private javax.swing.JButton connectButton3;
     private javax.swing.JButton connectButton4;
+    private javax.swing.JButton connectButton5;
+    private javax.swing.JButton connectButton6;
     private javax.swing.JTextArea consoleTextArea;
     private javax.swing.JPanel deck1Panel;
     private javax.swing.JPanel deck2Panel;
     private javax.swing.JPanel deck3Panel;
     private javax.swing.JPanel deck4Panel;
+    private javax.swing.JPanel deck5Panel;
+    private javax.swing.JPanel deck6Panel;
     private javax.swing.JTextField endTimeTextField1;
     private javax.swing.JTextField endTimeTextField2;
     private javax.swing.JTextField endTimeTextField3;
     private javax.swing.JTextField endTimeTextField4;
+    private javax.swing.JTextField endTimeTextField5;
+    private javax.swing.JTextField endTimeTextField6;
     private javax.swing.JButton forwardButton1;
     private javax.swing.JButton forwardButton2;
     private javax.swing.JButton forwardButton3;
     private javax.swing.JButton forwardButton4;
+    private javax.swing.JButton forwardButton5;
+    private javax.swing.JButton forwardButton6;
     private javax.swing.JButton forwardPlayButton1;
     private javax.swing.JButton forwardPlayButton2;
     private javax.swing.JButton forwardPlayButton3;
     private javax.swing.JButton forwardPlayButton4;
+    private javax.swing.JButton forwardPlayButton5;
+    private javax.swing.JButton forwardPlayButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1729,7 +2630,17 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1739,11 +2650,14 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1751,40 +2665,58 @@ public class AutoReelFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton recordToggleButton2;
     private javax.swing.JToggleButton recordToggleButton3;
     private javax.swing.JToggleButton recordToggleButton4;
+    private javax.swing.JToggleButton recordToggleButton5;
+    private javax.swing.JToggleButton recordToggleButton6;
     private javax.swing.JCheckBox reel1CheckBox;
     private javax.swing.JCheckBox reel2CheckBox;
     private javax.swing.JCheckBox reel3CheckBox;
     private javax.swing.JCheckBox reel4CheckBox;
+    private javax.swing.JCheckBox reel5CheckBox;
+    private javax.swing.JCheckBox reel6CheckBox;
     private javax.swing.JCheckBox reverseModeCheckBox1;
     private javax.swing.JCheckBox reverseModeCheckBox2;
     private javax.swing.JCheckBox reverseModeCheckBox3;
     private javax.swing.JCheckBox reverseModeCheckBox4;
+    private javax.swing.JCheckBox reverseModeCheckBox5;
+    private javax.swing.JCheckBox reverseModeCheckBox6;
     private javax.swing.JButton reversePlayButton1;
     private javax.swing.JButton reversePlayButton2;
     private javax.swing.JButton reversePlayButton3;
     private javax.swing.JButton reversePlayButton4;
+    private javax.swing.JButton reversePlayButton5;
+    private javax.swing.JButton reversePlayButton6;
     private javax.swing.JButton rewindButton1;
     private javax.swing.JButton rewindButton2;
     private javax.swing.JButton rewindButton3;
     private javax.swing.JButton rewindButton4;
+    private javax.swing.JButton rewindButton5;
+    private javax.swing.JButton rewindButton6;
     private javax.swing.JTextField rewindTimeTextField1;
     private javax.swing.JTextField rewindTimeTextField2;
     private javax.swing.JTextField rewindTimeTextField3;
     private javax.swing.JTextField rewindTimeTextField4;
+    private javax.swing.JTextField rewindTimeTextField5;
+    private javax.swing.JTextField rewindTimeTextField6;
     private javax.swing.JButton setupButton;
     private javax.swing.JTextField startDelayTextField;
     private javax.swing.JTextField startTimeTextField1;
     private javax.swing.JTextField startTimeTextField2;
     private javax.swing.JTextField startTimeTextField3;
     private javax.swing.JTextField startTimeTextField4;
+    private javax.swing.JTextField startTimeTextField5;
+    private javax.swing.JTextField startTimeTextField6;
     private javax.swing.JButton stopAllButton;
     private javax.swing.JButton stopButton1;
     private javax.swing.JButton stopButton2;
     private javax.swing.JButton stopButton3;
     private javax.swing.JButton stopButton4;
+    private javax.swing.JButton stopButton5;
+    private javax.swing.JButton stopButton6;
     private javax.swing.JLabel timerLabel1;
     private javax.swing.JLabel timerLabel2;
     private javax.swing.JLabel timerLabel3;
     private javax.swing.JLabel timerLabel4;
+    private javax.swing.JLabel timerLabel5;
+    private javax.swing.JLabel timerLabel6;
     // End of variables declaration//GEN-END:variables
 }

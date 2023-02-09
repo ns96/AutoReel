@@ -34,7 +34,7 @@ public class SetupDialog extends javax.swing.JDialog {
         
         // update the table with the values
         String key;
-        for(int i = 1; i < 5; i++) {
+        for(int i = 1; i < 7; i++) {
             String deck = "deck" + i;
             String[] deckProperties = autoReel.getDeckProperties(deck);
             int rows = deckProperties.length;
@@ -81,6 +81,32 @@ public class SetupDialog extends javax.swing.JDialog {
 
         propertiesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
                 {null, null},
                 {null, null},
                 {null, null},
