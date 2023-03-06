@@ -484,7 +484,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         setupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AutoReel Controller v0.5.0 (02/09/2023)");
+        setTitle("AutoReel Controller v0.6.0 (03/06/2023)");
 
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1637,7 +1637,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
             
             // start the timer
             timer1 = new Timer(1000, new ActionListener() {
-                // start and end need to be ocnverted to seconds
+                // start and end need to be converted to seconds
                 int start = Integer.parseInt(startTimeTextField1.getText());
                 int end = Integer.parseInt(endTimeTextField1.getText());
                 int rewindEnd = Integer.parseInt(rewindTimeTextField1.getText());
@@ -1654,6 +1654,9 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         if(stopAutoPlay1) {
                             autoPlayEndComboBox1.setSelectedIndex(0);
                             stopMode = "STOP";
+                            
+                            // set the start to the current time value
+                            startTimeTextField1.setText("" + start);
                         }
                         
                         // stop the timer and also send stop command
@@ -1741,6 +1744,9 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         if(stopAutoPlay2) {
                             autoPlayEndComboBox2.setSelectedIndex(0);
                             stopMode = "STOP";
+                            
+                            // set the start to the current time value
+                            startTimeTextField2.setText("" + start);
                         }
                         
                         // stop the timer and also send stop command
@@ -1924,6 +1930,9 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         if(stopAutoPlay3) {
                             autoPlayEndComboBox3.setSelectedIndex(0);
                             stopMode = "STOP";
+                            
+                            // set the start to the current time value
+                            startTimeTextField3.setText("" + start);
                         }
                         
                         if(stopMode.equals("STOP")) {
@@ -2133,6 +2142,9 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         if(stopAutoPlay4) {
                             autoPlayEndComboBox4.setSelectedIndex(0);
                             stopMode = "STOP";
+                            
+                            // set the start to the current time value
+                            startTimeTextField4.setText("" + start);
                         }
                         
                         if(stopMode.equals("STOP")) {
@@ -2338,6 +2350,9 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         if(stopAutoPlay5) {
                             autoPlayEndComboBox5.setSelectedIndex(0);
                             stopMode = "STOP";
+                            
+                            // set the start to the current time value
+                            startTimeTextField5.setText("" + start);
                         }
                         
                         if(stopMode.equals("STOP")) {
@@ -2490,6 +2505,9 @@ public class AutoReelFrame extends javax.swing.JFrame {
                         if(stopAutoPlay6) {
                             autoPlayEndComboBox6.setSelectedIndex(0);
                             stopMode = "STOP";
+                            
+                            // set the start to the current time value
+                            startTimeTextField6.setText("" + start);
                         }
                         
                         if(stopMode.equals("STOP")) {
