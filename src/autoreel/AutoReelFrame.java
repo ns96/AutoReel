@@ -484,7 +484,7 @@ public class AutoReelFrame extends javax.swing.JFrame {
         setupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AutoReel Controller v0.6.0 (03/06/2023)");
+        setTitle("AutoReel Controller v0.6.1 (03/06/2023)");
 
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1657,6 +1657,8 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             
                             // set the start to the current time value
                             startTimeTextField1.setText("" + start);
+                        } else {
+                            startTimeTextField1.setText("0");
                         }
                         
                         // stop the timer and also send stop command
@@ -1747,6 +1749,8 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             
                             // set the start to the current time value
                             startTimeTextField2.setText("" + start);
+                        } else {
+                            startTimeTextField2.setText("0");
                         }
                         
                         // stop the timer and also send stop command
@@ -1933,6 +1937,8 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             
                             // set the start to the current time value
                             startTimeTextField3.setText("" + start);
+                        } else {
+                            startTimeTextField3.setText("0");
                         }
                         
                         if(stopMode.equals("STOP")) {
@@ -2145,6 +2151,8 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             
                             // set the start to the current time value
                             startTimeTextField4.setText("" + start);
+                        } else {
+                            startTimeTextField4.setText("0");
                         }
                         
                         if(stopMode.equals("STOP")) {
@@ -2353,6 +2361,8 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             
                             // set the start to the current time value
                             startTimeTextField5.setText("" + start);
+                        } else {
+                            startTimeTextField5.setText("0");
                         }
                         
                         if(stopMode.equals("STOP")) {
@@ -2508,6 +2518,8 @@ public class AutoReelFrame extends javax.swing.JFrame {
                             
                             // set the start to the current time value
                             startTimeTextField6.setText("" + start);
+                        } else {
+                            startTimeTextField6.setText("0");
                         }
                         
                         if(stopMode.equals("STOP")) {
